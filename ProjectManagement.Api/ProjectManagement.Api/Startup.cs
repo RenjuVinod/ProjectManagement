@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,6 +32,10 @@ namespace ProjectManagement.Api
             services.AddControllers();
             services.AddMvc();
             services.AddSwaggerGen();
+            services.AddDbContext<ProjectManagementContext>(opt =>
+            {
+                opt.UseInMemoryDatabase("ProjectManagement");
+            });
             services.AddTransient(typeof(IBaseRepository<Project>), typeof(BaseRepository<Project>));
             services.AddTransient(typeof(IBaseRepository<User>), typeof(BaseRepository<User>));
             services.AddTransient(typeof(IBaseRepository<Tasks>), typeof(BaseRepository<Tasks>));
@@ -60,8 +65,42 @@ namespace ProjectManagement.Api
             {
                 endpoints.MapControllers();
             });
-                     
-           
+
+            //var context = app.ApplicationServices.GetService<ProjectManagementContext>();
+            //AddTestData(context);
+
         }
+
+
+        #region Private Methods
+
+        public void AddTestData(ProjectManagementContext context)
+        {
+            User testUser1 = new User
+            {
+                FirstName = "Test",
+                LastName = "User1",
+                Email = "testuser1@test.com",
+                Password = "test123"
+            };
+            context.User.Add(testUser1);
+            User testUser2 = new User
+            {
+                FirstName = "Test",
+                LastName = "User2",
+                Email = "testuser2@gmail.com",
+                Password = "test123"
+            };
+            context.User.Add(testUser2);
+
+            Project testProject1 = new Project { Name = "TestProject1", CreatedOn = DateTime.Now, Detail = "This is Test project 1" };
+            Project testProject2 = new Project { Name = "TestProject2", CreatedOn = DateTime.Now, Detail = "This is Test project 2" };
+
+            context.Project.Add(testProject1);
+            context.Project.Add(testProject2);
+            context.SaveChanges();
+        }
+
+        #endregion
     }
 }

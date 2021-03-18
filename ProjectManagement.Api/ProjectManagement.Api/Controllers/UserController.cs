@@ -12,10 +12,6 @@ namespace ProjectManagement.Api.Controllers
     [Route("api/User")]
     public class UserController : BaseController<User>
     {
-        //public UserController(IBaseRepository<User> baseRepository) : base(baseRepository)
-        //{
-
-        //}
         private readonly IUserRepository _userRepository;
         public UserController(IUserRepository userRepository) : base(userRepository)
         {
