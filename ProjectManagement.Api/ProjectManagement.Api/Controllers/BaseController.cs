@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Data.Interfaces;
+using ProjectManagement.Entities;
+using System.Threading.Tasks;
 
 namespace ProjectManagement.Api.Controllers
 {
-    public class BaseController<T> : ControllerBase where T : class
+    public class BaseController<T> : ControllerBase where T : BaseEntity
     {
         private readonly IBaseRepository<T> _baseRepository;
         public BaseController(IBaseRepository<T> baseRepository)
@@ -32,9 +34,9 @@ namespace ProjectManagement.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add([FromBody] T value)
+        public async Task<IActionResult> Add([FromBody] T value)
         {
-            var result = _baseRepository.Add(value);
+            var result = await _baseRepository.Add(value);
             if (result != null)
                 return Ok(result);
             else
@@ -42,9 +44,9 @@ namespace ProjectManagement.Api.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] T value)
+        public async Task<IActionResult> Put([FromBody] T value)
         {
-            var result = _baseRepository.Update(value);
+            var result = await _baseRepository.Update(value);
             if (result != null)
                 return Ok(result);
             else
@@ -52,11 +54,14 @@ namespace ProjectManagement.Api.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(long id)
+        public async Task<IActionResult> Delete(long id)
         {
-            _baseRepository.Delete(id);
+            var result = _baseRepository.Get(id);
+            if (result == null)
+                return StatusCode(500);
+
+            await _baseRepository.Delete(id);
             return Ok();
         }
-
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ProjectManagement.Data.Interfaces
 {
@@ -12,11 +13,11 @@ namespace ProjectManagement.Data.Interfaces
 
         T Get(long id);
 
-        T Add(T entity);
+        Task<T> Add(T entity);
 
-        T Update(T entity);
+        Task<T> Update(T entity);
 
-        void Delete(long id);
+        Task<int> Delete(long id);
 
     }
 }
