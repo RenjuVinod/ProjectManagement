@@ -12,3 +12,7 @@
 /ProjectManagement.Api/ProjectManagement.Data/bin/Debug/netstandard2.0
 /ProjectManagement.Api/ProjectManagement.Data/obj
 /ProjectManagement.Api/ProjectManagement.Data.Implementation/bin/Debug/netstandard2.0
+/ProjectManagement.Api/ProjectManagemnt.IntegrationTest/bin/Debug/netcoreapp3.1
+/ProjectManagement.Api/ProjectManagemnt.IntegrationTest/obj
+/ProjectManagement.Api/ProjectManagemnt.Test/bin/Debug/netcoreapp3.1
+/ProjectManagement.Api/ProjectManagemnt.Test/obj
